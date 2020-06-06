@@ -1,0 +1,10 @@
+{% extends "mainApp/wrapper.html" %}
+
+{% block content %}
+    {% load static %}
+    <link rel"stylesheet" href="{% static 'css/video.css'%}">
+    <div class="both">
+        <video id="video" width="400" height="300" autoplay></video>
+    </div>
+    <script src="video.js"></script>
+{% endblock %}

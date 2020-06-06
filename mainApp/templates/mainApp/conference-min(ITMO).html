@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ProctorMEPhI</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/conference.css' %}">
+  <script src="../static/js/jquery-3.5.1.min.js"></script>
+  <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+  <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <!-- <div class="overlay"></div> -->
+  <header class="header">
+    <div class="container">
+      <div class="header_top-block fixed">
+        <div class="container">
+        <div class="row">
+          <div class="col-4">
+            <a href="/" class="logo">
+              <h3>ProctorMEPhI</h3>
+            </a>
+          </div>
+          <div class="col-8">
+            <nav class="header-menu">
+              <ul>
+                <li><a href="#">Поддержка</a></li>
+                <li><a href="/">Выход</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="header_content-block">
+        <div class="btn-area">
+          <input id="txt-roomid" placeholder="Unique Room ID">
+          <button class="btn" id="btn-join-room">Присоединиться</button>
+        </div>
+		<iframe allowfullscreen="allowfullscreen" width="1080" height="720" allow="microphone; camera" src="http://localhost:3000/#vision/5ed2578410f0972bc8628bfc"></iframe>
+        <script>
+        var connection = new RTCMultiConnection();
+        connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+        //connection.videosContainer = document.querySelector('.link-webcam');
+        connection.session = {
+            audio: true,
+            video: true
+        };
+
+        connection.sdpConstraints.mandatory = {
+            OfferToReceiveAudio: true,
+            OfferToReceiveVideo: true
+        };
+
+        var roomid = document.getElementById('txt-roomid');
+
+        roomid.value = connection.token();
+
+        /*document.getElementById('btn-open-or-join-room').onclick = function() {
+            this.disabled = true;
+            //connection.openOrJoin(roomid.value || 'predefinedRoomId' );
+            connection.join(roomid.value || 'predefinedRoomId');
+        };*/
+
+        document.getElementById('btn-join-room').onclick = function() {
+            this.disabled = true;
+            connection.join(roomid.value || 'predefinedRoomId');
+        };
+        </script>
+      </div>
+    </div>
+  </header>
+  <footer class="footer">
+    <p>© 2020 Национальный исследовательский ядерный университет «МИФИ»</p>
+    <p>Создано студентами 22-ой кафедры НИЯУ "МИФИ"</p>
+  </footer>
+</body>
+</html>
